@@ -1,6 +1,50 @@
 # Semantic Segmentation
-### Introduction
-In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
+
+## Introduction
+
+In this project, I have labeled the pixels of a road in images using a Fully Convolutional Network (FCN).
+The network is based on the VGG-16 model and extended to perform semantic segmentation on the KITTI dataset.
+
+## Approach
+I used a pretrained VGG-16 model, where I converted layer 3, 4, and 7 to fully convolutional layers.
+This allows the input to be of any size equal to or larger than the original images.
+
+I then upsampled layer 7 by 2 using a transposed convolution and combined it with layer 4 using a simple add-operation. This is called a skip-connection.
+The same was done for layer 4, which was upsampled by 2 and combined with layer 3.
+Finally, layer 3 was upsampled by 8 to match the input size.
+The new upsampled layers that were introduced each include a kernel initializer and a kernel regularizer.
+
+I used cross-entropy as loss function and an Adam optimizer for optimization.
+
+### Hyperparameters
+The following hyperparameters were used. These were all found empirically.
+
+  - epoch: 20
+  - batch_size: 8
+  - learning_rate: 0.0001
+  - keep_prob: 0.75
+
+## Results
+The accumulated loss for a complete epoch started at ~30 and converged to ~1.6 after 20 epochs.
+
+Below, a few sample images from the test set show some qualitative results.
+
+### Samples
+
+Below are a few sample images from the output of the fully convolutional network, with the segmentation class overlaid upon the original image in green.
+
+![sample1](./runs/1511443758.9845335/um_000002.png)
+![sample2](./runs/1511443758.9845335/um_000007.png)
+![sample3](./runs/1511443758.9845335/um_000013.png)
+![sample4](./runs/1511443758.9845335/um_000017.png)
+![sample5](./runs/1511443758.9845335/um_000018.png)
+![sample6](./runs/1511443758.9845335/um_000028.png)
+![sample7](./runs/1511443758.9845335/um_000030.png)
+![sample8](./runs/1511443758.9845335/um_000034.png)
+
+More qualitative results are available in the ./runs folder of the repository.
+
+---
 
 ### Setup
 ##### Frameworks and Packages
